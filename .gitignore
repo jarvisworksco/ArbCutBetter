@@ -1,0 +1,21 @@
+# Astro / Node
+node_modules
+dist
+.astro
+
+# Cloudflare
+.wrangler
+.dev.vars
+
+# Netlify (jei naudojama)
+.netlify
+
+# Lokalūs įrankiai / darbiniai failai (neeina į repo)
+.claude
+_preview
+nuotraukos
+Manto-galerija
+
+# OS
+.DS_Store
+Thumbs.db

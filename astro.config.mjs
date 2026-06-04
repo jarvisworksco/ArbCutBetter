@@ -1,0 +1,17 @@
+// @ts-check
+import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
+
+export const SITE_URL = 'https://arbcut.lt';
+
+export default defineConfig({
+  site: SITE_URL,
+  integrations: [
+    sitemap({
+      // noindex teisinius puslapius išskiriame iš sitemap
+      filter: (page) => !/\/(privatumo-politika|taisykles)\/?$/.test(page),
+    }),
+  ],
+  build: { inlineStylesheets: 'auto' },
+  compressHTML: true,
+});

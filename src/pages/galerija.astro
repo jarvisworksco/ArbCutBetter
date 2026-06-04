@@ -1,0 +1,62 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import PageHero from '@components/PageHero.astro';
+import CtaBand from '@components/CtaBand.astro';
+import Footer from '@components/Footer.astro';
+import StickyCall from '@components/StickyCall.astro';
+import InquiryModal from '@components/InquiryModal.astro';
+import ChatWidget from '@components/ChatWidget.astro';
+import Lightbox from '@components/Lightbox.astro';
+import { galerijaVisos } from '@data/galerija.js';
+import { localBusiness, breadcrumbs } from '@data/jsonld.js';
+
+const title = 'Darbų galerija — ArbCut | Medžių pjovimas ir aukštuminiai darbai';
+const description = 'ArbCut atliktų darbų nuotraukos: pavojingų medžių pjovimas, genėjimas, kelmų naikinimas ir aukštuminiai darbai su autobokšteliu visoje Lietuvoje.';
+const schemas = [
+  localBusiness(),
+  breadcrumbs([
+    { name: 'Pradžia', path: '/' },
+    { name: 'Galerija', path: '/galerija' },
+  ]),
+];
+---
+<BaseLayout title={title} description={description} schemas={schemas}>
+  <Header />
+  <main id="main">
+    <PageHero
+      eyebrow="Mūsų darbai"
+      title="Darbų galerija"
+      subtitle={`${galerijaVisos.length} realios atliktų darbų nuotraukos — medžių pjovimas, genėjimas, kelmų naikinimas ir aukštuminiai darbai.`}
+      crumbs={[{ name: 'Pradžia', path: '/' }, { name: 'Galerija' }]}
+    />
+
+    <section class="section section--card-bg" aria-label="Visos darbų nuotraukos">
+      <div class="gallery-page__grid" role="list">
+        {galerijaVisos.map((g, i) => (
+          <button class="gallery__item" class:list={[{ 'gallery__item--tall': g.tall }]} role="listitem"
+            data-src={g.src} data-caption={g.caption} aria-label={`Atidaryti nuotrauką ${i + 1}: ${g.alt}`}>
+            <img src={g.src} alt={`${g.alt} ${i + 1}`} loading="lazy" class="grain-photo" />
+          </button>
+        ))}
+      </div>
+    </section>
+
+    <CtaBand />
+  </main>
+  <Footer />
+  <StickyCall />
+  <InquiryModal />
+  <ChatWidget />
+  <Lightbox />
+</BaseLayout>
+
+<style>
+  .gallery-page__grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 220px; gap: 12px; max-width: var(--max-width); margin: 0 auto; padding-inline: var(--gutter); }
+  .gallery__item { position: relative; overflow: hidden; border-radius: var(--radius); cursor: pointer; background: var(--color-forest-deep); }
+  .gallery__item--tall { grid-row: span 2; }
+  .gallery__item img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-slow); }
+  .gallery__item:hover img { transform: scale(1.06); }
+  @media (max-width: 1023px) { .gallery-page__grid { grid-template-columns: repeat(3, 1fr); } .gallery__item--tall { grid-row: span 1; } }
+  @media (max-width: 680px) { .gallery-page__grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; } }
+</style>

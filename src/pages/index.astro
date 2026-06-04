@@ -1,0 +1,52 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Hero from '@components/Hero.astro';
+import ContactStrip from '@components/ContactStrip.astro';
+import TrustStrip from '@components/TrustStrip.astro';
+import About from '@components/About.astro';
+import Services from '@components/Services.astro';
+import Process from '@components/Process.astro';
+import Gallery from '@components/Gallery.astro';
+import WhyArbCut from '@components/WhyArbCut.astro';
+import Reviews from '@components/Reviews.astro';
+import FAQ from '@components/FAQ.astro';
+import CtaBand from '@components/CtaBand.astro';
+import ContactSection from '@components/ContactSection.astro';
+import Footer from '@components/Footer.astro';
+import StickyCall from '@components/StickyCall.astro';
+import InquiryModal from '@components/InquiryModal.astro';
+import Lightbox from '@components/Lightbox.astro';
+import ChatWidget from '@components/ChatWidget.astro';
+import Vietoves from '@components/Vietoves.astro';
+import { site } from '@data/site.js';
+import { localBusiness, faqPage } from '@data/jsonld.js';
+
+const schemas = [localBusiness({ withReviews: true }), faqPage()];
+---
+<BaseLayout schemas={schemas}>
+  <Header />
+  <main id="main">
+    <Hero />
+    <TrustStrip />
+    <About />
+    <Services />
+    <Process />
+    <Gallery />
+    {site.features.reviews && <Reviews />}
+    <WhyArbCut />
+    <FAQ />
+    <Vietoves />
+    <CtaBand />
+    <ContactSection />
+  </main>
+  <Footer />
+
+  <StickyCall />
+  {site.features.chatWidget && <ChatWidget />}
+  <InquiryModal />
+  <Lightbox />
+
+  <!-- hCaptcha (formų apsauga — išsaugota iš veikiančios svetainės) -->
+  <script src="https://js.hcaptcha.com/1/api.js" async defer is:inline></script>
+</BaseLayout>

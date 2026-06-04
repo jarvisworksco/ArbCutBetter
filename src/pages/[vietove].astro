@@ -1,0 +1,98 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import PageHero from '@components/PageHero.astro';
+import Process from '@components/Process.astro';
+import Reviews from '@components/Reviews.astro';
+import CtaBand from '@components/CtaBand.astro';
+import ContactSection from '@components/ContactSection.astro';
+import Footer from '@components/Footer.astro';
+import StickyCall from '@components/StickyCall.astro';
+import InquiryModal from '@components/InquiryModal.astro';
+import ChatWidget from '@components/ChatWidget.astro';
+import Icon from '@components/Icon.astro';
+import { vietoves } from '@data/vietoves.js';
+import { paslaugos } from '@data/paslaugos.js';
+import { site } from '@data/site.js';
+import { localBusiness, breadcrumbs } from '@data/jsonld.js';
+
+export function getStaticPaths() {
+  return vietoves.map((v) => ({ params: { vietove: v.slug }, props: { v } }));
+}
+const { v } = Astro.props;
+const topPaslaugos = paslaugos.slice(0, 6);
+
+const title = `Medžių pjovimas ${v.miestas} — arboristas ArbCut | ${site.telefonas}`;
+const description = `Medžių pjovimas, genėjimas, pavojingų medžių šalinimas ir aukštuminiai darbai ${v.miestas} ir aplink. ${v.intro || ''} Nemokamas įvertinimas.`;
+const schemas = [
+  localBusiness(),
+  breadcrumbs([
+    { name: 'Pradžia', path: '/' },
+    { name: `Medžių pjovimas ${v.miestas}`, path: `/${v.slug}` },
+  ]),
+];
+---
+<BaseLayout title={title} description={description} schemas={schemas}>
+  <Header />
+  <main id="main">
+    <PageHero
+      eyebrow={`Arboristas · ${v.miestas}`}
+      title={`Medžių pjovimas ${v.miestas}`}
+      subtitle={v.intro}
+      crumbs={[{ name: 'Pradžia', path: '/' }, { name: v.miestas }]}
+    />
+
+    <section class="section section--cream">
+      <div class="container loc">
+        <div class="loc__text js-reveal-scroll">
+          <span class="eyebrow">Medžių priežiūra {v.miestas}</span>
+          <p class="loc__lead">{v.tekstas}</p>
+          <a href={site.telefonasHref} class="btn btn--call btn--large">
+            <Icon name="telefonas" size={20} stroke={2.5} /> Skambinti {site.telefonas}
+          </a>
+        </div>
+
+        <div class="loc__services js-reveal-scroll">
+          <h2 class="loc__services-title">Paslaugos {v.miestas} ir aplink</h2>
+          <ul class="loc__list" role="list">
+            {topPaslaugos.map((p) => (
+              <li>
+                <a href={`/paslaugos/${p.slug}`} class="loc__link">
+                  <Icon name={p.ikona} size={20} />
+                  <span>{p.pavadinimas}</span>
+                  <span class="loc__price">{p.kaina}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <Process />
+    <Reviews limit={6} />
+    <CtaBand />
+    <ContactSection />
+  </main>
+  <Footer />
+  <StickyCall />
+  <InquiryModal />
+  <ChatWidget />
+  <script src="https://js.hcaptcha.com/1/api.js" async defer is:inline></script>
+</BaseLayout>
+
+<style>
+  .loc { display: grid; grid-template-columns: 1.3fr 1fr; gap: var(--space-8); align-items: start; }
+  .loc__lead { font-size: 1.12rem; line-height: 1.8; color: var(--color-text); margin: var(--space-4) 0 var(--space-6); }
+
+  .loc__services { background: var(--color-bg-card); border: 1px solid var(--color-border); border-top: 4px solid var(--color-rust); border-radius: var(--radius); padding: var(--space-5); box-shadow: var(--shadow-card); }
+  .loc__services-title { font-size: 1.2rem; color: var(--color-forest); margin-bottom: var(--space-4); }
+  .loc__list { display: grid; gap: 4px; }
+  .loc__link { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-radius: var(--radius-sm); color: var(--color-text); transition: background var(--t-base); }
+  .loc__link svg { color: var(--color-rust); flex: 0 0 auto; }
+  .loc__link span:first-of-type { flex: 1; font-size: 0.95rem; }
+  .loc__price { font-weight: 700; color: var(--color-forest); font-size: 0.9rem; white-space: nowrap; }
+  .loc__link:hover { background: var(--color-bg-sand); }
+
+  @media (max-width: 900px) { .loc { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,64 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import PageHero from '@components/PageHero.astro';
+import CtaBand from '@components/CtaBand.astro';
+import Footer from '@components/Footer.astro';
+import StickyCall from '@components/StickyCall.astro';
+import InquiryModal from '@components/InquiryModal.astro';
+import ChatWidget from '@components/ChatWidget.astro';
+import Icon from '@components/Icon.astro';
+import { straipsniai } from '@data/straipsniai.js';
+import { localBusiness, breadcrumbs } from '@data/jsonld.js';
+
+const title = 'Tinklaraštis — patarimai apie medžių priežiūrą | ArbCut';
+const description = 'Naudingi straipsniai apie medžių pjovimą, kainas, leidimus ir pavojingų medžių atpažinimą. Praktiški arboristo patarimai.';
+const schemas = [
+  localBusiness(),
+  breadcrumbs([{ name: 'Pradžia', path: '/' }, { name: 'Tinklaraštis', path: '/tinklarastis' }]),
+];
+---
+<BaseLayout title={title} description={description} schemas={schemas}>
+  <Header />
+  <main id="main">
+    <PageHero
+      eyebrow="Tinklaraštis"
+      title="Patarimai ir atsakymai"
+      subtitle="Dažniausi klausimai apie medžių priežiūrą, kainas ir saugumą — paprastai paaiškinti."
+      crumbs={[{ name: 'Pradžia', path: '/' }, { name: 'Tinklaraštis' }]}
+    />
+
+    <section class="section section--cream">
+      <div class="container blog__grid">
+        {straipsniai.map((s) => (
+          <article class="blog-card js-reveal-scroll">
+            <a href={`/tinklarastis/${s.slug}`} class="blog-card__link">
+              <span class="blog-card__meta">{s.data} · {s.skaitymas}</span>
+              <h2 class="blog-card__title">{s.title}</h2>
+              <p class="blog-card__excerpt">{s.aprasymas}</p>
+              <span class="blog-card__more">Skaityti <Icon name="rodykle" size={16} stroke={2.5} /></span>
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <CtaBand />
+  </main>
+  <Footer />
+  <StickyCall />
+  <InquiryModal />
+  <ChatWidget />
+</BaseLayout>
+
+<style>
+  .blog__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-5); }
+  .blog-card { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: var(--shadow-card); transition: transform var(--t-base), box-shadow var(--t-base), border-color var(--t-base); }
+  .blog-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-heavy); border-color: var(--color-rust); }
+  .blog-card__link { display: block; padding: var(--space-6); }
+  .blog-card__meta { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-rust); font-weight: 700; }
+  .blog-card__title { font-size: 1.4rem; color: var(--color-forest); margin: var(--space-3) 0; }
+  .blog-card__excerpt { color: var(--color-text-muted); font-size: 0.98rem; line-height: 1.6; }
+  .blog-card__more { display: inline-flex; align-items: center; gap: 8px; margin-top: var(--space-4); font-weight: 700; color: var(--color-forest); }
+  @media (max-width: 700px) { .blog__grid { grid-template-columns: 1fr; } }
+</style>
