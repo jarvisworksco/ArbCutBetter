@@ -2,7 +2,7 @@
 /* Galutinis CTA prieš formą (konversijos akcentas). Fono nuotrauka + overlay. */
 import { site } from '@data/site.js';
 import Icon from './Icon.astro';
-const bg = '/assets/images/Laidai.jpg';
+const bg = '/assets/images/gallery/wrok3.jpg';
 ---
 <section class="cta-band" style={`--cta-bg:url('${bg}')`} aria-label="Susisiekite">
   <div class="container cta-band__inner js-reveal-scroll">
@@ -17,7 +17,8 @@ const bg = '/assets/images/Laidai.jpg';
 
 <style>
   .cta-band { position: relative; padding-block: clamp(80px, 11vw, 140px); background: var(--cta-bg) center/cover no-repeat; isolation: isolate; }
-  .cta-band::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(120deg, rgba(20,38,32,0.95), rgba(20,38,32,0.78)); }
+  .cta-band::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(120deg, rgba(14,42,28,0.9) 0%, rgba(14,42,28,0.64) 100%); }
+  .cta-band::after { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse at center, rgba(14,26,20,0.45) 0%, rgba(14,26,20,0) 70%); }
   .cta-band__inner { max-width: 760px; text-align: center; margin-inline: auto; color: var(--color-text-light); }
   .cta-band__title { color: var(--color-text-light); font-size: clamp(2rem, 4.5vw, 3.4rem); margin-bottom: var(--space-4); }
   .cta-band__text { opacity: 0.88; margin-bottom: var(--space-6); font-size: 1.1rem; }

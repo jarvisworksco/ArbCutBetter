@@ -32,7 +32,7 @@ export const procesas = [
   {
     pavadinimas: 'Sutvarkome aplinką',
     tekstas: 'Po darbų išvežame šakas ir medieną (Kaune ir Kauno rajone), paliekame švarą.',
-    ikona: 'svara',
+    ikona: 'tvarka',
   },
 ];
 
