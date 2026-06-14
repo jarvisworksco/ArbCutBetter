@@ -9,7 +9,7 @@ export default defineConfig({
   integrations: [
     sitemap({
       // noindex teisinius puslapius išskiriame iš sitemap
-      filter: (page) => !/\/(privatumo-politika|taisykles)\/?$/.test(page),
+      filter: (page) => !/\/(privatumo-politika|taisykles|success)\/?$/.test(page),
     }),
   ],
   build: { inlineStylesheets: 'auto' },
